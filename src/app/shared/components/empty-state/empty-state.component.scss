@@ -1,0 +1,45 @@
+:host {
+  display: block;
+}
+
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 0.65rem;
+  padding: 2.3rem 1.2rem;
+  text-align: center;
+  color: #cbd5e1;
+}
+
+.icon-shell {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  border: 1px solid rgba(125, 211, 252, 0.24);
+  border-radius: 50%;
+  background: rgba(125, 211, 252, 0.1);
+  color: #7dd3fc;
+
+  ion-icon {
+    font-size: 1.55rem;
+  }
+}
+
+h2,
+p {
+  margin: 0;
+}
+
+h2 {
+  color: #f8fafc;
+  font-size: 1.05rem;
+  font-weight: 760;
+}
+
+p {
+  max-width: 28rem;
+  color: #9aa8b6;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}

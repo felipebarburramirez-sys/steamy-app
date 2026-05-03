@@ -1,0 +1,84 @@
+<ion-header class="modal-header">
+  <ion-toolbar>
+    <ion-title>Detalle</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" aria-label="Cerrar" (click)="close()">
+        <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="detail-content">
+  <section class="hero">
+    <img [src]="deal.thumb" [alt]="deal.title" />
+    <div class="hero-overlay">
+      <span class="store-pill">
+        <img *ngIf="deal.store.logoUrl" [src]="deal.store.logoUrl" [alt]="deal.store.name" />
+        {{ deal.store.name }}
+      </span>
+      <h1>{{ deal.title }}</h1>
+    </div>
+  </section>
+
+  <section class="price-panel">
+    <div>
+      <span>Precio oferta</span>
+      <strong>{{ deal.salePrice | currency: 'USD':'symbol':'1.2-2' }}</strong>
+    </div>
+    <div>
+      <span>Precio normal</span>
+      <strong>{{ deal.normalPrice | currency: 'USD':'symbol':'1.2-2' }}</strong>
+    </div>
+    <div>
+      <span>Ahorro</span>
+      <strong>{{ deal.savingsPercent | number: '1.0-0' }}%</strong>
+    </div>
+  </section>
+
+  <section class="metrics">
+    <div>
+      <span>Deal rating</span>
+      <strong>{{ deal.dealRating | number: '1.1-1' }}</strong>
+    </div>
+    <div>
+      <span>Metacritic</span>
+      <strong>{{ deal.metacriticScore ?? 'N/A' }}</strong>
+    </div>
+    <div>
+      <span>Steam</span>
+      <strong>{{ deal.steamRatingPercent ? (deal.steamRatingPercent + '%') : 'N/A' }}</strong>
+    </div>
+  </section>
+
+  <section class="actions">
+    <ion-button expand="block" size="large" (click)="openDeal()">
+      <ion-icon slot="start" name="open-outline" aria-hidden="true"></ion-icon>
+      VIEW DEAL
+    </ion-button>
+    <ion-button expand="block" fill="outline" size="large" (click)="toggleFavorite()">
+      <ion-icon slot="start" [name]="favorite ? 'heart' : 'heart-outline'" aria-hidden="true"></ion-icon>
+      {{ favorite ? 'Quitar favorito' : 'Guardar favorito' }}
+    </ion-button>
+  </section>
+
+  <section class="offers">
+    <div class="section-heading">
+      <h2>Otras tiendas</h2>
+      <ion-spinner *ngIf="loadingOffers" name="dots" aria-label="Cargando ofertas"></ion-spinner>
+    </div>
+
+    <button
+      *ngFor="let offer of offers"
+      type="button"
+      class="offer-row"
+      (click)="openDeal(offer.dealId)"
+    >
+      <span>
+        <img *ngIf="offer.store.logoUrl" [src]="offer.store.logoUrl" [alt]="offer.store.name" />
+        {{ offer.store.name }}
+      </span>
+      <strong>{{ offer.salePrice | currency: 'USD':'symbol':'1.2-2' }}</strong>
+    </button>
+  </section>
+</ion-content>

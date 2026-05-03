@@ -1,0 +1,55 @@
+<article
+  class="deal-card"
+  [class.compact]="compact"
+  role="button"
+  tabindex="0"
+  (click)="selectDeal.emit()"
+  (keyup.enter)="selectDeal.emit()"
+  (keyup.space)="selectDeal.emit()"
+>
+  <div class="cover">
+    <img
+      *ngIf="deal.thumb && !imageFailed; else coverFallback"
+      [src]="deal.thumb"
+      [alt]="deal.title"
+      loading="lazy"
+      (error)="imageFailed = true"
+    />
+    <ng-template #coverFallback>
+      <div class="cover-fallback">
+        <ion-icon name="game-controller-outline" aria-hidden="true"></ion-icon>
+      </div>
+    </ng-template>
+
+    <button
+      type="button"
+      class="favorite-button"
+      [class.active]="favorite"
+      [attr.aria-label]="favorite ? 'Quitar favorito' : 'Guardar favorito'"
+      (click)="onFavoriteClick($event)"
+    >
+      <ion-icon [name]="favorite ? 'heart' : 'heart-outline'" aria-hidden="true"></ion-icon>
+    </button>
+
+    <span class="discount">-{{ deal.savingsPercent | number: '1.0-0' }}%</span>
+  </div>
+
+  <div class="deal-body">
+    <h3>{{ deal.title }}</h3>
+
+    <div class="meta-row">
+      <span class="store">
+        <img *ngIf="deal.store.logoUrl" [src]="deal.store.logoUrl" [alt]="deal.store.name" />
+        {{ deal.store.name }}
+      </span>
+      <span class="rating">{{ deal.dealRating | number: '1.1-1' }}</span>
+    </div>
+
+    <div class="price-row">
+      <strong>{{ deal.salePrice | currency: 'USD':'symbol':'1.2-2' }}</strong>
+      <span *ngIf="deal.normalPrice > deal.salePrice">
+        {{ deal.normalPrice | currency: 'USD':'symbol':'1.2-2' }}
+      </span>
+    </div>
+  </div>
+</article>
