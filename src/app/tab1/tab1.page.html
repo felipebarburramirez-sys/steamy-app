@@ -1,17 +1,98 @@
-<ion-header [translucent]="true">
+<ion-header class="page-header" [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-title>My Steamy App</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="deals-page" [fullscreen]="true">
+  <section class="search-panel">
+    <div>
+      <p>CheapShark deals</p>
+      <h1>Ofertas de videojuegos</h1>
+    </div>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+    <ion-searchbar
+      placeholder="Buscar por titulo"
+      inputmode="search"
+      show-clear-button="focus"
+      [value]="query"
+      (ionInput)="onQueryChange($any($event).detail.value)"
+    ></ion-searchbar>
+  </section>
+
+  <ion-refresher slot="fixed" (ionRefresh)="($any($event).target.complete())">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <section *ngIf="errorMessage" class="inline-alert">
+    <ion-icon name="alert-circle-outline" aria-hidden="true"></ion-icon>
+    {{ errorMessage }}
+  </section>
+
+  <section *ngIf="!searchActive" class="content-section">
+    <div class="section-heading">
+      <div>
+        <p>Top actual</p>
+        <h2>Mejores ofertas</h2>
+      </div>
+    </div>
+
+    <div *ngIf="loadingTopDeals" class="deal-grid">
+      <ion-card *ngFor="let skeleton of skeletons" class="skeleton-card">
+        <ion-skeleton-text animated class="skeleton-cover"></ion-skeleton-text>
+        <ion-card-content>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 62%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 44%"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div *ngIf="!loadingTopDeals && topDeals.length" class="top-rail">
+      <app-deal-card
+        *ngFor="let deal of topDeals; trackBy: trackByDealId"
+        [deal]="deal"
+        [favorite]="isFavorite(deal)"
+        (selectDeal)="openDetails(deal)"
+        (favoriteToggle)="toggleFavorite(deal)"
+      ></app-deal-card>
+    </div>
+  </section>
+
+  <section *ngIf="searchActive" class="content-section">
+    <div class="section-heading">
+      <div>
+        <p>Busqueda</p>
+        <h2>Resultados</h2>
+      </div>
+      <span *ngIf="!loadingSearch">{{ searchResults.length }}</span>
+    </div>
+
+    <div *ngIf="loadingSearch" class="deal-grid">
+      <ion-card *ngFor="let skeleton of skeletons" class="skeleton-card">
+        <ion-skeleton-text animated class="skeleton-cover"></ion-skeleton-text>
+        <ion-card-content>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 58%"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div *ngIf="!loadingSearch && searchResults.length" class="deal-grid">
+      <app-deal-card
+        *ngFor="let deal of searchResults; trackBy: trackByDealId"
+        [deal]="deal"
+        [favorite]="isFavorite(deal)"
+        (selectDeal)="openDetails(deal)"
+        (favoriteToggle)="toggleFavorite(deal)"
+      ></app-deal-card>
+    </div>
+
+    <app-empty-state
+      *ngIf="!loadingSearch && !searchResults.length"
+      icon="search-outline"
+      title="Sin resultados"
+      description="Prueba con otro titulo."
+    ></app-empty-state>
+  </section>
 </ion-content>
