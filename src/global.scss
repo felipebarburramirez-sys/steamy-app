@@ -35,3 +35,21 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #0d1117;
+}
+
+button {
+  font: inherit;
+}
+
+ion-modal::part(content) {
+  border-radius: 18px 18px 0 0;
+  overflow: hidden;
+}
