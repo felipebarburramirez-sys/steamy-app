@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">My Steamy App</string>
+    <string name="title_activity_main">My Steamy App</string>
+    <string name="package_name">com.felipebarbur.steamyapp</string>
+    <string name="custom_url_scheme">com.felipebarbur.steamyapp</string>
+    <string name="widget_description">Rotating deals for the saved favorite game</string>
+    <string name="widget_empty_title">Save a favorite game</string>
+    <string name="widget_empty_store">Open My Steamy App</string>
+    <string name="widget_game_cover">Game cover</string>
+    <string name="widget_store_logo">Store logo</string>
+</resources>
